@@ -17,14 +17,16 @@ module.exports = function(mapnik) {
                 max: N_CPUS
             });
             function create(callback) {
-                var map = new mapnik.Map(options.size, options.size);
-                map.fromString(xml, mapOptions, loaded);
-                function loaded(err) {
-                    if (err) return callback(err);
-                    if (options.bufferSize) {
-                        map.bufferSize = options.bufferSize;
+                var map = new mapnik.Map(options.size.width, options.size.height);
+                if (xml) {
+                    map.fromString(xml, mapOptions, loaded);
+                    function loaded(err) {
+                        if (err) return callback(err);
+                        if (options.bufferSize) {
+                            map.bufferSize = options.bufferSize;
+                        }
+                        return callback(err, map);
                     }
-                    return callback(err, map);
                 }
             }
             function destroy(map) {
